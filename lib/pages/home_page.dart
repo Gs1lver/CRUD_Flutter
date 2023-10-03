@@ -1,21 +1,40 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:crud_padaria/main.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  //ISA CENTRALIZA A DIV =´´(
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Ola Mundo"),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
-      body: Column(
-        children: [
-          Text("oooi")
-        ],
-      ),
+      resizeToAvoidBottomInset: false,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Bem vindo à Padaria Dona Maria!"),
+              Text("O que deseja fazer?"),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/cadastro");
+                },
+                child: const Text("Cadastrar produtos"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/consulta");
+                },
+                child: const Text("Consultar produtos"),
+              ),
+            ],
+          ),
+        ),
+      )
     );
   }
 }

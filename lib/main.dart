@@ -1,3 +1,5 @@
+import 'package:crud_padaria/pages/cadastro.dart';
+import 'package:crud_padaria/pages/consulta.dart';
 import 'package:crud_padaria/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -12,12 +14,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink)
+        primarySwatch: Colors.grey,
       ),
       routes: {
         "/": (context) => const HomePage(),
+        "/cadastro": (context) => const CadastroPage(),
+        "/consulta": (context) => const ConsultaPage(),
       },
     );
   }
