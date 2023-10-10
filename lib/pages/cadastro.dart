@@ -27,7 +27,7 @@ class _CadastroPageState extends State<CadastroPage> {
           backgroundColor: Colors.transparent,
           actions: [
             IconButton(
-              icon: Icon(Icons.list),
+              icon: const Icon(Icons.list),
               onPressed: () {
                 Navigator.pushNamed(context, '/consulta');
               },
@@ -40,7 +40,7 @@ class _CadastroPageState extends State<CadastroPage> {
             //imagem
             Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Image.asset("assets/paes.png", width: 200, height: 200)),
+                child: Image.asset("assets/paes.png", width: 180, height: 180)),
 
             //cadastro
             Padding(
@@ -57,7 +57,7 @@ class _CadastroPageState extends State<CadastroPage> {
                         decoration: const InputDecoration(
                           labelText: "Nome",
                           hintText: "Digite o nome do produto",
-                          hintStyle: TextStyle(color: Colors.grey),
+                          
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(10),
@@ -79,7 +79,7 @@ class _CadastroPageState extends State<CadastroPage> {
                         decoration: const InputDecoration(
                           labelText: "Preço",
                           hintText: "Digite o preço do produto",
-                          hintStyle: TextStyle(color: Colors.grey),
+                         
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(10),
@@ -96,6 +96,9 @@ class _CadastroPageState extends State<CadastroPage> {
                       const SizedBox(
                         height: 12,
                       ),
+                      Divider(thickness: 1,),
+
+                      Text("Tipo:", style: TextStyle(fontSize: 16), textAlign: TextAlign.left,),
                       DropdownButton(
                         items: const [
                           DropdownMenuItem(child: Text("Pao"), value: "Pao"),
@@ -111,10 +114,11 @@ class _CadastroPageState extends State<CadastroPage> {
                           print(value);
                         },
                       ),
+                      Divider(thickness: 1,),
+                      Text("Disponibilidade:"),
                       const RadioAvailable(),
+
                       ElevatedButton(
-                        child: const Text("Cadastrar",
-                            style: TextStyle(fontSize: 16)),
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.all(16),
@@ -130,6 +134,8 @@ class _CadastroPageState extends State<CadastroPage> {
                             _formKey.currentState!.reset();
                           }
                         },
+                        child: const Text("Cadastrar",
+                            style: TextStyle(fontSize: 16)),
                       )
                     ],
                   ),

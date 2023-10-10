@@ -22,4 +22,11 @@ class ProdutoController {
   static void excluirProduto(Produto produto){
     _listaProdutos.remove(produto);
   }
+
+  void alteraProduto(int indice, String nome, double preco, List<Type> tipos, bool disponibilidade) {
+    _listaProdutos[indice].name = nome;
+    _listaProdutos[indice].price = preco;
+    _listaProdutos[indice].types = tipos;
+    _listaProdutos[indice].isAvailable = disponibilidade;
+  }
 }

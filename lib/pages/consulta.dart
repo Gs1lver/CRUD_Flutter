@@ -15,10 +15,17 @@ class _ConsultaPageState extends State<ConsultaPage> {
   List<Produto> listaBusca = [];
   final busca = "";
 
+  @override
+  void initState() {
+    listaBusca = List.from(listaProdutos);
+    super.initState();
+  }
+
   void atualizaLista(String nome) {
     setState(() {
       listaBusca = listaProdutos
-          .where((element) => element.name.contains(nome.toLowerCase()))
+          .where((element) =>
+              element.name.toLowerCase().contains(nome.toLowerCase()))
           .toList();
     });
   }
@@ -96,7 +103,7 @@ class _ConsultaPageState extends State<ConsultaPage> {
                                 onPressed: () {
                                   Produto produto = listaProdutos[index];
                                   setState(() {
-                                    ProdutoController.excluirProduto(produto);
+                                    confirmarExclusao(context, produto);
                                     atualizaLista(busca);
                                   });
                                 },
@@ -113,4 +120,39 @@ class _ConsultaPageState extends State<ConsultaPage> {
       ),
     );
   }
+}
+
+Future confirmarExclusao(BuildContext context, Produto produto) async {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Excluir ${produto.name}?'), //excluir o nome do produto
+        content: const SingleChildScrollView(
+          child: ListBody(
+            children: [
+              Text('Esta ação não poderá ser desfeita.'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Cancelar'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: const Text('Excluir'),
+            onPressed: () {
+              ProdutoController.excluirProduto(produto);
+              Navigator.of(context).pop();
+              
+
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
