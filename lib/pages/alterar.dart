@@ -32,6 +32,13 @@ class _AlteraPageState extends State<AlteraPage> {
     _ratingController.text = widget.produto.rating.toString();
   }
 
+  void limparCampos() {
+    _nomeController.clear();
+    _precoController.clear();
+    _descriptionController.clear();
+    _ratingController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     inicializaCampos();
@@ -40,16 +47,6 @@ class _AlteraPageState extends State<AlteraPage> {
         title: Text(widget.produto.name),
         elevation: 0,
         backgroundColor: Colors.transparent,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                //oioi
-              }
-            },
-          )
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -91,48 +88,62 @@ class _AlteraPageState extends State<AlteraPage> {
                       height: 12,
                     ),
                     TextFormField(
-                        controller: _descriptionController,
-                        decoration: const InputDecoration(
-                          labelText: "Descrição",
-                          hintText: "Digite uma descrição para o produto",
-                         
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
+                      controller: _descriptionController,
+                       decoration: const InputDecoration(
+                        labelText: "Descrição",
+                        hintText: "Digite uma descrição para o produto",
+                       
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
                           ),
                         ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Digite uma descrição para o produto!";
-                          }
-                          return null;
-                        },
                       ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      TextFormField(
-                        controller: _ratingController,
-                        decoration: const InputDecoration(
-                          labelText: "Avaliação",
-                          hintText: "Digite a avaliação do produto",
-                         
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Digite uma descrição para o produto!";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    TextFormField(
+                      controller: _ratingController,
+                      decoration: const InputDecoration(
+                        labelText: "Avaliação",
+                        hintText: "Digite a avaliação do produto",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
                           ),
                         ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Digite a avaliação do produto!";
-                          }
-                          return null;
-                        },
                       ),
-                ],
-              )),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Digite a avaliação do produto!";
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                )
+              ),
+            ),
+            ElevatedButton(
+              onPressed: (){
+                if (_formKey.currentState!.validate()) {
+                  String name = _nomeController.text;
+                  double price = double.parse(_precoController.text);
+                  String description = _descriptionController.text;
+                  double rating = double.parse(_ratingController.text);
+                  Produto produto = Produto(name: name, price: price, description: description, rating: rating);
+                  listaProdutos[widget.indice] = produto;
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text("Alterar"),
             )
           ],
         ),

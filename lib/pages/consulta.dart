@@ -11,6 +11,41 @@ class ConsultaPage extends StatefulWidget {
 }
 
 class _ConsultaPageState extends State<ConsultaPage> {
+  Future confirmarExclusao(BuildContext context, Produto produto) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Excluir ${produto.name}?'), //excluir o nome do produto
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: [
+                Text('Esta ação não poderá ser desfeita.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Excluir'),
+              onPressed: () {
+                ProdutoController.excluirProduto(produto);
+                Navigator.of(context).pop();
+                atualizaLista(busca);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
   final listaProdutos = ProdutoController.getListaProdutos;
   List<Produto> listaBusca = [];
   final busca = "";
@@ -71,43 +106,45 @@ class _ConsultaPageState extends State<ConsultaPage> {
                 ),
                 itemBuilder: (context, int index) {
                   return ListTile(
-                      leading: Icon(Icons.cookie), //se tiver disponivel, aparecer x icone, se nao, aparecer y icone
-                      title: Text(listaBusca[index].name),
-                      subtitle:
-                          Text("R\$${listaBusca[index].price.toString()}"),
-                      trailing: SizedBox(
-                        width: 60,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => AlteraPage(
-                                                produto: listaProdutos[index],
-                                                indice: index,
-                                              )));
-                                },
-                              ),
+                    leading: Icon(Icons.cookie), //se tiver disponivel, aparecer x icone, se nao, aparecer y icone
+                    title: Text(listaBusca[index].name),
+                    subtitle: Text("R\$${listaBusca[index].price.toString()}"),
+                    trailing: SizedBox(
+                      width: 60,
+                       child: Row(
+                        children: [
+                          Expanded(
+                            child: IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AlteraPage(
+                                      produto: listaProdutos[index],
+                                      indice: index,
+                                    )
+                                  )
+                                );
+                              },
                             ),
-                            Expanded(
-                              child: IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () {
-                                  Produto produto = listaProdutos[index];
-                                  setState(() {
-                                    confirmarExclusao(context, produto);
-                                    atualizaLista(busca);
-                                  });
-                                },
-                              ),
+                          ),
+                          Expanded(
+                            child: IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                Produto produto = listaProdutos[index];
+                                setState(() {
+                                  confirmarExclusao(context, produto);
+                                  
+                                });
+                              },
                             ),
-                          ],
-                        ),
-                      ));
+                          ),
+                        ],
+                      ),
+                    )
+                  );
                 },
               ),
             )
@@ -116,39 +153,4 @@ class _ConsultaPageState extends State<ConsultaPage> {
       ),
     );
   }
-}
-
-Future confirmarExclusao(BuildContext context, Produto produto) async {
-  return showDialog<void>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Excluir ${produto.name}?'), //excluir o nome do produto
-        content: const SingleChildScrollView(
-          child: ListBody(
-            children: [
-              Text('Esta ação não poderá ser desfeita.'),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: const Text('Cancelar'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: const Text('Excluir'),
-            onPressed: () {
-              ProdutoController.excluirProduto(produto);
-              Navigator.of(context).pop();
-              
-
-            },
-          ),
-        ],
-      );
-    },
-  );
 }

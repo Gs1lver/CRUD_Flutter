@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:crud_padaria/controller/produto_controller.dart';
+import '../model/produto.dart';
 
 class CadastroPage extends StatefulWidget {
   const CadastroPage({super.key});
@@ -8,6 +10,8 @@ class CadastroPage extends StatefulWidget {
 }
 
 class _CadastroPageState extends State<CadastroPage> {
+  final ProdutoController _produtoController = ProdutoController();
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -154,9 +158,13 @@ class _CadastroPageState extends State<CadastroPage> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             String name = _nameController.text;
-                            int price = int.parse(_priceController.text);
+                            double price = double.parse(_priceController.text);
                             String description = _descriptionController.text;
-                            int rating = int.parse(_ratingController.text);
+                            double rating = double.parse(_ratingController.text);
+
+                            Produto produto = Produto(name: name, price: price, description: description, rating: rating);
+                            _produtoController.adicionarProduto(produto);
+                            
                             limparCampos();
                             _formKey.currentState!.reset();
                           }
