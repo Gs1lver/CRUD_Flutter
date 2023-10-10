@@ -10,33 +10,37 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+  List<Widget> body = const[
+    CadastroPage(),
+    ConsultaPage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    int indexAtual = 0;
-
-    List<Widget> pages = [
-      CadastroPage(),
-      ConsultaPage(),
-    ];
-
-    void itemClicado(int index) {
-      setState(() {
-        indexAtual = index;
-      });
-      print(indexAtual);
-      print(pages[indexAtual]);
-    }
-
     return Scaffold(
-        body: pages[indexAtual],
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: indexAtual,
-          onTap: itemClicado,
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.add), label: "Adicionar"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.format_list_bulleted), label: "Produtos"),
-          ],
-        ));
+      body: Center(
+        child: body[_currentIndex],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.amber[800],
+        currentIndex: _currentIndex,
+        onTap: (int newIndex){
+          setState(() {
+            _currentIndex = newIndex;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: "Cadastrar",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: "Consultar",
+          ),
+        ]
+      ),
+    );
   }
 }

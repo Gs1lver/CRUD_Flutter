@@ -4,10 +4,10 @@ class ProdutoController {
 
   //atributos
   static List<Produto> _listaProdutos = [
-    Produto(isAvailable: false, name: "Pão de Queijo", price: 3.99, types: [Type.salgado]),
-    Produto(isAvailable: true, name: "Guaraná", price: 6.99, types: [Type.bebida]),
-    Produto(isAvailable: true, name: "Doce de Leite", price: 4.99, types: [Type.doce]),
-    Produto(isAvailable: false, name: "Pão de Leite", price: 5.99, types: [Type.pao]),
+    Produto(name: "Pão de Queijo", price: 3.99, description: "Vindo direto de Minas", rating: 4.5),
+    Produto(name: "Guaraná", price: 6.99, description: "refrizin delicia", rating: 3.0),
+    Produto(name: "Doce de Leite", price: 4.99, description: "doce de leite caseiro", rating: 5.0),
+    Produto(name: "Pão de Leite", price: 5.99, description: "pão feito especialmente pela vó tereza", rating: 4.5),
   ];
 
   //getters e setters
@@ -23,10 +23,10 @@ class ProdutoController {
     _listaProdutos.remove(produto);
   }
 
-  void alteraProduto(int indice, String nome, double preco, List<Type> tipos, bool disponibilidade) {
+  void alteraProduto(int indice, String nome, double preco, String descricao, double avaliacao) {
     _listaProdutos[indice].name = nome;
     _listaProdutos[indice].price = preco;
-    _listaProdutos[indice].types = tipos;
-    _listaProdutos[indice].isAvailable = disponibilidade;
+    _listaProdutos[indice].description = descricao;
+    _listaProdutos[indice].rating = avaliacao;
   }
 }

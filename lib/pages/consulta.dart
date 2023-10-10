@@ -71,11 +71,7 @@ class _ConsultaPageState extends State<ConsultaPage> {
                 ),
                 itemBuilder: (context, int index) {
                   return ListTile(
-                      leading: listaBusca[index].isAvailable
-                          ? const Icon(Icons.check_circle, color: Colors.green)
-                          : const Icon(Icons.remove_circle,
-                              color: Colors
-                                  .red), //se tiver disponivel, aparecer x icone, se nao, aparecer y icone
+                      leading: Icon(Icons.cookie), //se tiver disponivel, aparecer x icone, se nao, aparecer y icone
                       title: Text(listaBusca[index].name),
                       subtitle:
                           Text("R\$${listaBusca[index].price.toString()}"),

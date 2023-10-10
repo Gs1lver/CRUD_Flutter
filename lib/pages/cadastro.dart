@@ -1,4 +1,3 @@
-import 'package:crud_padaria/widgets/radioAvailable.dart';
 import 'package:flutter/material.dart';
 
 class CadastroPage extends StatefulWidget {
@@ -11,11 +10,15 @@ class CadastroPage extends StatefulWidget {
 class _CadastroPageState extends State<CadastroPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _ratingController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void limparCampos() {
     _nameController.clear();
     _priceController.clear();
+    _descriptionController.clear();
+    _ratingController.clear();
   }
 
   @override
@@ -44,7 +47,7 @@ class _CadastroPageState extends State<CadastroPage> {
 
             //cadastro
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.only(top: 4, bottom: 16, left: 16, right: 16),
               child: Form(
                 key: _formKey,
                 child: Padding(
@@ -96,30 +99,52 @@ class _CadastroPageState extends State<CadastroPage> {
                       const SizedBox(
                         height: 12,
                       ),
-                      Divider(thickness: 1,),
-
-                      Text("Tipo:", style: TextStyle(fontSize: 16), textAlign: TextAlign.left,),
-                      DropdownButton(
-                        items: const [
-                          DropdownMenuItem(child: Text("Pao"), value: "Pao"),
-                          DropdownMenuItem(
-                              child: Text("Salgado"), value: "Salgado"),
-                          DropdownMenuItem(child: Text("Doce"), value: "Doce"),
-                          DropdownMenuItem(
-                              child: Text("Bebida"), value: "Bebida"),
-                          DropdownMenuItem(
-                              child: Text("Outro"), value: "Outro"),
-                        ],
-                        onChanged: (value) {
-                          print(value);
+                      TextFormField(
+                        controller: _descriptionController,
+                        decoration: const InputDecoration(
+                          labelText: "Descrição",
+                          hintText: "Digite uma descrição para o produto",
+                         
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Digite uma descrição para o produto!";
+                          }
+                          return null;
                         },
                       ),
-                      Divider(thickness: 1,),
-                      Text("Disponibilidade:"),
-                      const RadioAvailable(),
-
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TextFormField(
+                        controller: _ratingController,
+                        decoration: const InputDecoration(
+                          labelText: "Avaliação",
+                          hintText: "Digite a avaliação do produto",
+                         
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Digite a avaliação do produto!";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      //Botão cadastrar
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.amber[800],
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.all(16),
                           shape: RoundedRectangleBorder(
@@ -130,12 +155,13 @@ class _CadastroPageState extends State<CadastroPage> {
                           if (_formKey.currentState!.validate()) {
                             String name = _nameController.text;
                             int price = int.parse(_priceController.text);
+                            String description = _descriptionController.text;
+                            int rating = int.parse(_ratingController.text);
                             limparCampos();
                             _formKey.currentState!.reset();
                           }
                         },
-                        child: const Text("Cadastrar",
-                            style: TextStyle(fontSize: 16)),
+                        child: const Text("Cadastrar", style: TextStyle(fontSize: 16)),
                       )
                     ],
                   ),
