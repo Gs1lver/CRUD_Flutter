@@ -1,40 +1,42 @@
-import 'package:flutter/cupertino.dart';
+import 'package:crud_padaria/pages/cadastro.dart';
+import 'package:crud_padaria/pages/consulta.dart';
 import 'package:flutter/material.dart';
-import 'package:crud_padaria/main.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
-  //ISA CENTRALIZA A DIV =´´(
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    int indexAtual = 0;
+
+    List<Widget> pages = [
+      CadastroPage(),
+      ConsultaPage(),
+    ];
+
+    void itemClicado(int index) {
+      setState(() {
+        indexAtual = index;
+      });
+      print(indexAtual);
+      print(pages[indexAtual]);
+    }
+
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Bem vindo à Padaria Dona Maria!"),
-              Text("O que deseja fazer?"),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/cadastro");
-                },
-                child: const Text("Cadastrar produtos"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/consulta");
-                },
-                child: const Text("Consultar produtos"),
-              ),
-            ],
-          ),
-        ),
-      )
-    );
+        body: pages[indexAtual],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: indexAtual,
+          onTap: itemClicado,
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.add), label: "Adicionar"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.format_list_bulleted), label: "Produtos"),
+          ],
+        ));
   }
 }

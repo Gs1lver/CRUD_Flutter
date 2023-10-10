@@ -1,3 +1,6 @@
+import 'package:crud_padaria/controller/produto_controller.dart';
+import 'package:crud_padaria/model/produto.dart';
+import 'package:crud_padaria/pages/alterar.dart';
 import 'package:flutter/material.dart';
 
 class ConsultaPage extends StatefulWidget {
@@ -8,17 +11,104 @@ class ConsultaPage extends StatefulWidget {
 }
 
 class _ConsultaPageState extends State<ConsultaPage> {
+  final listaProdutos = ProdutoController.getListaProdutos;
+  List<Produto> listaBusca = [];
+  final busca = "";
+
+  void atualizaLista(String nome) {
+    setState(() {
+      listaBusca = listaProdutos
+          .where((element) => element.name.contains(nome.toLowerCase()))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 222, 226, 230),
+      appBar: AppBar(
+        title: const Text("Nossos Produtos"),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              Text("Oi")
-            ],
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: TextField(
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    labelText: "Buscar",
+                    hintText: "Digite o nome do produto",
+                    hintStyle: TextStyle(color: Colors.grey),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                  ),
+                  onChanged: (String nome) {
+                    atualizaLista(nome);
+                  }),
+            ),
+            const Divider(
+              thickness: 1,
+            ),
+            Flexible(
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: listaBusca.length,
+                separatorBuilder: (context, int index) => const Divider(
+                  thickness: 1,
+                ),
+                itemBuilder: (context, int index) {
+                  return ListTile(
+                      leading: listaBusca[index].isAvailable
+                          ? const Icon(Icons.check_circle, color: Colors.green)
+                          : const Icon(Icons.remove_circle,
+                              color: Colors
+                                  .red), //se tiver disponivel, aparecer x icone, se nao, aparecer y icone
+                      title: Text(listaBusca[index].name),
+                      subtitle:
+                          Text("R\$${listaBusca[index].price.toString()}"),
+                      trailing: SizedBox(
+                        width: 60,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AlteraPage(
+                                                produto: listaProdutos[index],
+                                                indice: index,
+                                              )));
+                                },
+                              ),
+                            ),
+                            Expanded(
+                              child: IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  Produto produto = listaProdutos[index];
+                                  setState(() {
+                                    ProdutoController.excluirProduto(produto);
+                                    atualizaLista(busca);
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ));
+                },
+              ),
+            )
+          ],
         ),
       ),
     );

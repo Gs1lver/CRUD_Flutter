@@ -1,22 +1,22 @@
 enum Type{
-  Pao,
-  Doce,
-  Salgado,
-  Bebida,
-  Outro
+  pao,
+  doce,
+  salgado,
+  bebida,
+  outro
 }
 
 class Produto{
   String name;
-  int price;
+  double price;
   bool isAvailable;
   List<Type> types;
 
   String get getName => name;
   set Name(String name) => this.name = name;
 
-  int get getPrice => price;
-  set setprice(int price) => this.price = price;
+  double get getPrice => price;
+  set setprice(double price) => this.price = price;
   
   bool get getIsAvailable => isAvailable;
   set setisAvailable(bool isAvailable) => this.isAvailable = isAvailable;
