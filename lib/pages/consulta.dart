@@ -91,6 +91,7 @@ class _ConsultaPageState extends State<ConsultaPage> {
                     ),
                   ),
                   onChanged: (String nome) {
+                    initState();
                     atualizaLista(nome);
                   }),
             ),
@@ -120,10 +121,11 @@ class _ConsultaPageState extends State<ConsultaPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => AlteraPage(
+                                    builder: (context) { return AlteraPage(
                                       produto: listaProdutos[index],
                                       indice: index,
-                                    )
+                                    );
+                                    }
                                   )
                                 );
                               },
@@ -136,7 +138,6 @@ class _ConsultaPageState extends State<ConsultaPage> {
                                 Produto produto = listaProdutos[index];
                                 setState(() {
                                   confirmarExclusao(context, produto);
-                                  
                                 });
                               },
                             ),

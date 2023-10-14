@@ -20,8 +20,6 @@ class _AlteraPageState extends State<AlteraPage> {
   final TextEditingController _precoController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _ratingController = TextEditingController();
-  //trazer o tipo e disponibilidade do produto
-  
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -30,13 +28,6 @@ class _AlteraPageState extends State<AlteraPage> {
     _precoController.text = widget.produto.price.toString();
     _descriptionController.text = widget.produto.description;
     _ratingController.text = widget.produto.rating.toString();
-  }
-
-  void limparCampos() {
-    _nomeController.clear();
-    _precoController.clear();
-    _descriptionController.clear();
-    _ratingController.clear();
   }
 
   @override
@@ -59,6 +50,7 @@ class _AlteraPageState extends State<AlteraPage> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     TextFormField(
@@ -138,8 +130,9 @@ class _AlteraPageState extends State<AlteraPage> {
                   double price = double.parse(_precoController.text);
                   String description = _descriptionController.text;
                   double rating = double.parse(_ratingController.text);
-                  Produto produto = Produto(name: name, price: price, description: description, rating: rating);
-                  listaProdutos[widget.indice] = produto;
+                  //Produto produto = Produto(name: name, price: price, description: description, rating: rating);
+                  //listaProdutos[widget.indice] = produto;
+                  _produtoController.alteraProduto(widget.indice, name, price, description, rating);
                   Navigator.pop(context);
                 }
               },
