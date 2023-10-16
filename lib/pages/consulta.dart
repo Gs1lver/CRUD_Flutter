@@ -45,7 +45,6 @@ class _ConsultaPageState extends State<ConsultaPage> {
     );
   }
 
-
   final listaProdutos = ProdutoController.getListaProdutos;
   List<Produto> listaBusca = [];
   final busca = "";
@@ -60,7 +59,7 @@ class _ConsultaPageState extends State<ConsultaPage> {
     setState(() {
       listaBusca = listaProdutos
           .where((element) =>
-              element.name.toLowerCase().contains(nome.toLowerCase()))
+              (element.name.toLowerCase().contains(nome.toLowerCase())))
           .toList();
     });
   }
@@ -72,6 +71,17 @@ class _ConsultaPageState extends State<ConsultaPage> {
         title: const Text("Nossos Produtos"),
         elevation: 0,
         backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.restart_alt,
+              color: Colors.orange,
+            ),
+            onPressed: () {
+              atualizaLista(busca);
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -91,7 +101,6 @@ class _ConsultaPageState extends State<ConsultaPage> {
                     ),
                   ),
                   onChanged: (String nome) {
-                    initState();
                     atualizaLista(nome);
                   }),
             ),
@@ -107,45 +116,43 @@ class _ConsultaPageState extends State<ConsultaPage> {
                 ),
                 itemBuilder: (context, int index) {
                   return ListTile(
-                    leading: Icon(Icons.cookie), //se tiver disponivel, aparecer x icone, se nao, aparecer y icone
-                    title: Text(listaBusca[index].name),
-                    subtitle: Text("R\$${listaBusca[index].price.toString()}"),
-                    trailing: SizedBox(
-                      width: 60,
-                       child: Row(
-                        children: [
-                          Expanded(
-                            child: IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) { return AlteraPage(
+                      leading: Icon(Icons
+                          .cookie), //se tiver disponivel, aparecer x icone, se nao, aparecer y icone
+                      title: Text(listaBusca[index].name),
+                      subtitle: Text(
+                          "R\$${listaBusca[index].price.toStringAsFixed(2)}"),
+                      trailing: SizedBox(
+                        width: 60,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return AlteraPage(
                                       produto: listaProdutos[index],
                                       indice: index,
                                     );
-                                    }
-                                  )
-                                );
-                              },
+                                  }));
+                                },
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                Produto produto = listaProdutos[index];
-                                setState(() {
-                                  confirmarExclusao(context, produto);
-                                });
-                              },
+                            Expanded(
+                              child: IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  Produto produto = listaProdutos[index];
+                                  setState(() {
+                                    confirmarExclusao(context, produto);
+                                  });
+                                },
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                  );
+                          ],
+                        ),
+                      ));
                 },
               ),
             )

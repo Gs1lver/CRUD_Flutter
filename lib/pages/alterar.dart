@@ -3,8 +3,8 @@ import 'package:crud_padaria/model/produto.dart';
 import 'package:flutter/material.dart';
 
 class AlteraPage extends StatefulWidget {
-  Produto produto;
-  int indice;
+  final Produto produto;
+  final int indice;
 
   AlteraPage({super.key, required this.produto, required this.indice});
 
@@ -130,10 +130,9 @@ class _AlteraPageState extends State<AlteraPage> {
                   double price = double.parse(_precoController.text);
                   String description = _descriptionController.text;
                   double rating = double.parse(_ratingController.text);
-                  //Produto produto = Produto(name: name, price: price, description: description, rating: rating);
-                  //listaProdutos[widget.indice] = produto;
+
                   _produtoController.alteraProduto(widget.indice, name, price, description, rating);
-                  Navigator.pop(context);
+                  Navigator.pop(context,);
                 }
               },
               child: const Text("Alterar"),
